@@ -7,6 +7,6 @@
 package imagevector
 
 const (
-	// ImageNameAgentSandbox is a constant for an image in the image vector with name 'agent-sandbox'.
-	ImageNameAgentSandbox = "agent-sandbox"
+	// ImageNameUagentUsandbox is a constant for an image in the image vector with name 'agent-sandbox'.
+	ImageNameUagentUsandbox = "agent-sandbox"
 )
