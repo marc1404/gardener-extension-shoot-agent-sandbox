@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ENSURE_GARDENER_MOD         := $(shell go get github.com/gardener/gardener@$$(go list -m -f "{{.Version}}" github.com/gardener/gardener))
+ENSURE_GARDENER_TOOLS_MOD   := $(shell go get github.com/gardener/gardener/hack/tools@$$(go list -m -f "{{.Version}}" github.com/gardener/gardener/hack/tools))
 GARDENER_HACK_DIR           := $(shell go list -m -f "{{.Dir}}" github.com/gardener/gardener)/hack
 EXTENSION_PREFIX            := gardener-extension
 NAME                        := shoot-agent-sandbox
@@ -89,8 +90,8 @@ check: $(GOIMPORTS) $(GOLANGCI_LINT) $(HELM) $(YQ)
 	@bash $(GARDENER_HACK_DIR)/check-charts.sh ./charts
 
 .PHONY: generate
-generate: $(CONTROLLER_GEN) $(EXTENSION_GEN) $(GEN_CRD_API_REFERENCE_DOCS) $(HELM) $(KUSTOMIZE) $(MOCKGEN) $(YQ) $(GOIMPORTS)
-	@VGOPATH=$(VGOPATH) REPO_ROOT=$(REPO_ROOT) GARDENER_HACK_DIR=$(GARDENER_HACK_DIR) hack/update-codegen.sh
+generate: $(CONTROLLER_GEN) $(EXTENSION_GEN) $(CRD_REF_DOCS) $(HELM) $(KUSTOMIZE) $(MOCKGEN) $(YQ) $(GOIMPORTS)
+	@REPO_ROOT=$(REPO_ROOT) GARDENER_HACK_DIR=$(GARDENER_HACK_DIR) hack/update-codegen.sh
 	@REPO_ROOT=$(REPO_ROOT) GARDENER_HACK_DIR=$(GARDENER_HACK_DIR) bash $(GARDENER_HACK_DIR)/generate-sequential.sh ./charts/... ./cmd/... ./example/... ./imagevector/... ./pkg/... ./test/...
 	@$(MAKE) format
 
